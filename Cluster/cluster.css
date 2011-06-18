@@ -1,0 +1,32 @@
+body {
+  background-color: #160002;
+}
+
+#cluster {
+  font-size: 22px;
+  width: 100px;
+  line-height: 25px;
+  text-align: center;
+  height: 500px;
+  font-family: "hypatia-sans-pro-1","hypatia-sans-pro-2",serif;
+  font-weight: 700;
+  display: none;
+}
+
+#cluster span {
+    font-family: "hypatia-sans-pro-1","hypatia-sans-pro-2",serif;
+}
+
+#destination {
+  position:relative;
+  width: 1080px;
+  height: 2000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+    font-family: "hypatia-sans-pro-1","hypatia-sans-pro-2",serif;
+    font-size: 84px;
+    color: white;
+}

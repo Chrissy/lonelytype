@@ -1,0 +1,44 @@
+#main * {
+    font-family: "adelle-1","adelle-2";
+    font-weight: 700;
+}
+
+.element1 {
+  font-size: 100px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  display: inline-block;
+  margin-bottom: -80px;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.element1 svg {
+    opacity: 0.65;
+    position: absolute;
+}
+
+.element1:hover {
+  cursor: pointer;
+}
+
+.letter {
+  position: absolute;
+  top: 20%;
+  left: 8%;
+  color: #1c1813;
+}
+
+
+#main {
+  width:80%;
+  min-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+}
+
+body {
+  background-color: #140D0F;
+}

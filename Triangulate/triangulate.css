@@ -1,0 +1,32 @@
+body {
+	background-color: #32050c;
+}
+
+header {
+  position: relative;
+  margin-top: 30px;
+  top: 50px;
+}
+
+header h1 {
+	font-size: 160px;
+	font-family: arial;
+	line-height: 110%;
+	color: #2D2F2E;
+	opacity: 1;
+}
+
+header canvas {
+  margin: 0;
+  padding: 0;
+  display: block;
+  opacity: 0.6;
+}
+
+body {
+	background-color: #260100;
+}
+
+h1 {
+  font-family: "proxima-nova-extra-condensed-1","proxima-nova-extra-condensed-2";
+}

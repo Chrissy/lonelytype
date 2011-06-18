@@ -1,0 +1,148 @@
+body {
+   background-color: #353740;
+   overflow: hidden;
+}
+
+#container {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+#mosaic {
+	font-size: 176px;
+	letter-spacing: 0px;
+	position: relative;
+}
+
+.letter1 {
+	font-family: "proxima-nova-1","proxima-nova-2",sans-serif;
+	color: white;
+}
+
+.block {
+  position: relative;
+  display: inline-block;
+  height: 80px;
+  width: 80px;
+  background-color: gray;
+
+}
+
+.node {
+  line-height: 100%;
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+}
+
+.helper {
+	font-size: 176px;
+	letter-spacing: 0px;
+	background-color: #210010;
+}
+
+.clone0 {
+  margin-left: 50px;
+  position: absolute;
+  bottom: 0;
+}
+
+.clone1 {
+	font-family: "arno-pro-1","arno-pro-2";
+	position: absolute;
+	bottom: 0;
+	margin-left: -50px;
+}
+
+.clone2 {
+  line-height: 0;
+  position: absolute;
+  top: 0px;
+  margin-left: 50px;
+  font-family: "arvo-1","arvo-2";
+}
+
+.clone3 {
+  font-family: "corner-store-1","corner-store-2";
+  position: absolute;
+  margin-top: -88px;
+  margin-left: -50px;
+}
+
+
+.letter_wrapper {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	line-height: 0;
+	float: left;
+	width: 89px;
+	height: 89px;
+	opacity: 1;
+	background-color: #210010;
+}
+
+.letter_wrapper:hover {
+  cursor: pointer;
+  z-index: 99;
+}
+
+.no-opacity: {
+  opacity: 1;
+}
+
+.carriage {
+  width: 100%;
+  height: 89px;
+  display: block;
+  position: relative;
+}
+
+.copy2 {
+  -moz-transform: rotate(80deg);
+  -webkit-transform: rotate(80deg);
+  -moz-transform: scale(3);
+  -webkit-transform: scale(3);
+  opacity: 0.4;
+  color: #D1108C;
+}
+
+.copy3 {
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: scale(5);
+  -webkit-transform: scale(5);
+  opacity: 0.6;
+  color: #0096D0;
+  position: relative;
+  z-index: 0;
+}
+
+.copy4 {
+  -moz-transform: rotate(240deg);
+  -webkit-transform: rotate(240deg);
+  -moz-transform: scale(2);
+  -webkit-transform: scale(2);
+  opacity: 0.6;
+  color: #DFB02E;
+  position: relative;
+  z-index: 0;
+}
+
+.copy3 {
+  -moz-transform: rotate(320deg);
+  -webkit-transform: rotate(320deg);
+  -moz-transform: scale(4);
+  -webkit-transform: scale(4);
+  opacity: 0.3;
+  color: #D5412A;
+  position: relative;
+  z-index: 0;
+}
+
+.helper {
+  position: fixed;
+  display: block;
+}
