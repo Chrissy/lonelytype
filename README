@@ -1,0 +1,5 @@
+Web Typography for the Lonely
+
+Web typography for the Lonely is a working collection of experiments in contemporary web design focusing on bleeding-edge standards implementations such as SVG, Html5 Canvas and Css3. It is mostly Javascript based and represents my journey into the depths of browser based interactivity. It is a working project and a learning process, therefore none of this code is claimed to be bulletproof or even bee-bee proof for that matter, but is instead meant to inspire and teach.
+
+Current goals for this project involve moving experiments out of libraries such as jquery and raphael.js and focusing purely on supported standards and javascript backed by more progressive-style support libraries like SVGweb and Excanvas.      
