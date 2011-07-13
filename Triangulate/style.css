@@ -1,0 +1,27 @@
+#to_tri {
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 160px;
+	color: #2D2F2E;
+	opacity: 1;  
+	position: absolute;
+	text-align:center;
+	width: 1400px;
+	left: 50%;
+	margin-left: -700px;
+	overflow:hidden;
+	line-height: 0;
+}
+
+#to_tri span {
+	font-family: inherit;
+	color: rgb(0,144,187);
+}
+
+#to_tri canvas {
+  margin: 0;
+  padding: 0;
+  display: block;
+  position: relative !important;
+  float: left;
+}

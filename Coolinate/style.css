@@ -1,0 +1,25 @@
+#to_cool {
+	font-size: 180px;
+	font-family: sans-serif;
+	line-height: 220px;
+	font-weight: bold;
+	height: 300px;
+	color: rgb(255,141,255);
+	width: 1160px;
+	position: absolute;
+	left: 100px;
+	transition: text-indent .3s ease-in;
+    -o-transition: text-indent .3s ease-in;
+    -moz-transition: text-indent .3s ease-in;
+    -webkit-transition: text-indent .3s linear;
+}
+
+#to_cool canvas {
+	position: absolute;
+	top: 5px;
+	left: 0;
+}
+
+#to_cool.active {
+	text-indent: -15px;
+}

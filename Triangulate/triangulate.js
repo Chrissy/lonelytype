@@ -1,312 +1,206 @@
-/* plugin author: chrissy clark
-   Quiltify is an early experiment in combining two previous functions: shellac and veil. It creates a defaults.patchwork canvas grid system on top of targeted text elements. Each defaults.patch can recieve color and compositing parameters. 
-*/
-
-$.fn.Quiltify = function(options) {
-var myInterval  
-var defaults = {
-   patch: this.height(),
-   colorArray : ["#008CD1","#CA5752","#FFED00","#E4066F"],
-   compArray : ['destination-atop','lighter','lighter','darker']
-} 
-
-var options = $.extend({}, defaults, options);
-
-return this.each(function(targetIndex) {   
-var target = this
-
-
-//learn some stuff about the target element
-var width = $(target).width()
-var height = $(target).height()
-var text = $(target).text()
-var position = $(target).offset()
-var size = $(target).css('font-size')
-var font = $(target).css('font-family')
-var color = $(target).css('color')
-var weight = $(target).css('font-weight')
-var intSize=parseInt(size)  
-var leading = parseInt($(target).css('lineHeight')) 
-var place = 0.39*intSize
+//		Author: Chrissy Clark(fivefourths@gmail.com)
+//		webtypographyforthelonely.com
+//
+//		Triangulate is a function that traps triangles inside of fragments of color.
+//		It utilizes Html5 Canvas as well as heavy dom scripting. The way it works 
+//		is simple: For every letter, create a canvas, and fill it with random 
+//		colored triangles.
+//
+//		You can call it using: 
+//                                     tri.init('idOfTargetedElement')
+//
+//      Triangulate uses shellac, so it pulls all of the styles from whatever text
+//		element you are targeting. You can access all of the created nodes through
+//		the tri.node prototype. for ex the canvas is at tri.Node[0].shellac.canvas
+//		check the tri.Node function to understand how the object is mapped.
 
 
-  function Gridder() {
-
-  	 //math
-  	 var intheight = parseInt(size) 
-  	 var dotnum = 1
-  	 var dotrows = 1	
-  	 var textlines = 1	
-  	 var picker = 0
-  	 //cycle through each line in a given block of text
-  	for(linescount=1;linescount<=textlines;linescount++) {	
-
-  		//create the matrix
-  		for(index=0;index<dotrows;index++) {
-
-  			for (i=0;i<dotnum;i++) {
-  						var top = 0
-  						var left = 0
-
-  						 context.fillStyle = defaults.colorArray[picker]
-  					     context.globalCompositeOperation = defaults.compArray[picker]
-  						 if (picker >= (defaults.colorArray.length-1)) {
-  						   picker = 0
-  						 } else {
-  						   picker = picker + 1
-  						 }
-
-  	 						//draw it 
-  	 						colorCube(0,0)
-  			}	//end vertical
-  		}	//end horizontal
-
-  	}	//end lines of text  
-  }   //end gridder      
+var tri = {
+  	  t : document.getElementById('triangulate'),
+  	  myInterval : 0,
+	  colorArray : ["#008CD1","#CA5752","#FFED00","#E4066F"],
+      compArray : ['lighter','darker','lighter','darker'],
+	  nodes : [],
 
 
-	 function Shellac(){ 
+	  cram : function(location,colornum,divname) {
 
-		  //split up the string into words
-		  var wordArray = text.split(" ") 
-		  var phraseArray = new Array()
-		  var lastPhrase="";
-		  var measure=0;  
+			var y = 1;	var x=0;
+			divname = (!divname) ? "color" : divname
+			colornum = (!colornum) ? 3 : colornum 
+			var text = location.innerHTML
+			var length = text.length - 1
+			nodes = []   
+			location.innerHTML = ""
 
-		  //create a canvas on top of the target element
-		  $('<canvas width="' + width*5 + '" height="' + height*5 + '" class= "quiltinate" id = "quiltinate1" ></canvas>').appendTo(target)
-		  var canvas = $(target).children('canvas')[0] 
-		  $(canvas).css({'top' : 0, 'left' : 0, 'position' : 'absolute'})
-		  context = canvas.getContext("2d");
-
-		  //put the target in front and make it transparent
-		  $(target).css({'position' : 'relative', 'z-index' : 99, 'color' : 'rgba(0, 0, 0, 0)'})
-
-		  //font styling
-		  context.fillStyle= color
-		  context.textBaseline = "middle";
-		  context.font = "bold " + size + " proxima-nova-extra-condensed-1,proxima-nova-extra-condensed-2";
-
-		  //cycle through each word, and create a phrase 
-		  //array for each line of text
-		  for (var i=0;i<wordArray.length;i++) {
-			      var word=wordArray[i];
-			      measure=context.measureText(lastPhrase+word).width;
-			   if (i == 0) { 
-			          lastPhrase+=(word);
-			      }
-			   else if (measure<width) { 
-			          lastPhrase+=(" " + word);
-			      }
-			   else {
-			          phraseArray.push(lastPhrase);
-			          lastPhrase=word;
-			      }
-			      if (i==wordArray.length-1) {
-			          phraseArray.push(lastPhrase);
-			          break;
-			      }  
-		  }
-
-		  //cycle through the array, and place a line of 
-		  //canvas text for each line of live text
-		  for(var i=0;i<phraseArray.length;i++) {
-			  var paddingTop = ((i*leading) + intSize)-place
-			  context.fillText(phraseArray[i], 0, paddingTop);
-		  }
-
-	} //end shellac
-
-
-  function colorCube(top,left) {
-  	var rotation = 0
-  	var a = 0
-  	var b = defaults.patch
-
-  	function drawTriangle(x,y,length,height) {
-
-  		context.beginPath() ;       	
-  			a = Math.floor(Math.random()*defaults.patch) 
-  			context.moveTo(x + left, y + top); // give the (x,y) coordinates
-  			context.lineTo(length + left, height + top);
-  			context.lineTo(a + left, b + top);
-  			context.fillStyle = defaults.colorArray[rotation]
-  			context.globalCompositeOperation = defaults.compArray[rotation]
-  			context.lineTo(0 + left, 0 + top);
-
-  			context.fill();
-
-  	   context.closePath();
-
-
-  		rotation = rotation + 1
-  		if (rotation == 3) {
-  			rotation = 0
-  		}
-
-
-
-  	}
-
-  	//for (var i=0;i<2;i++) {
-  		p = defaults.patch
-  		drawTriangle(0,0,p,0)
-  		drawTriangle(p,0,p,p) 
-  		drawTriangle(p,p,0,p) 
-  		drawTriangle(0,p,p,p) 
-  	//} 
-} //end colorcube
- 
-
-  Shellac()
-  Gridder()
-	
- }); //end this.each
-} //end quiltify
- 
-
-function Cram(location,colornum,divname) {
-				//the knoll function breaks type up into div's to be colorized.
-				//it is inspired by the beautiful knoll intl. poster by wim crouwel.
-				//it takes five parameters: the text string, the number of colors, 
-				//either "word" or "letter", for how it breaks things down,
-				//the name of all the div's to be spat out (in case you want to
-				//use it twice), and the location to spit it out in.
-													//defaults
-												
-
-	$(location).each(function(index) {
-	
-													
-													var y = 1;	var x=0;
-													if (divname === null) 
-													{divname = "color";}
-													if (colornum === null) 
-													{colornum = 3;}
-													if (location === null)
-													{location = $(":parent")};
-													var text = $(this).text();
-													var length = (text.length);
-
-	
-		$(this).html("")
-		
-			for (x;x<=text.length;x+=1) {
+			for (x;x<=length;x+=1) {
 				var stringslice = text.slice(x,x+1);
-
+				nodes[x] = document.createElement('span')
+				nodes[x].innerHTML = stringslice
 				if (stringslice == " ") {
-					$("<span class="+divname+"space"+">"+ stringslice +"</span>").appendTo(this);
+					nodes[x].setAttribute('class',divname + "space")
 				}
 				else {	
-					$("<span class="+divname+y+">"+ stringslice +"</span>").appendTo(this);
+					nodes[x].setAttribute('class',divname+y)
 				}	
-				if (y < colornum) {
-					y = y+1; }
-				else {
-					y = 1; }
+				location.appendChild(nodes[x])
+				y = (y < colornum) ? y + 1 : 1
 			}
-  
+			return nodes    
 
-    });		
-
-
-}  //end cram
-
-function init(){
-	Cram('header h1',1,'canv')
-	$('header h1 span').Quiltify()
-}
-
-function go(){
-  setTimeout(init,1)
-}
-
-function reInit(){
-  $('header').empty
-  $('header').html("<h1>" + text + "</h1>")
-  init()
-}
+	},
 
 
+    shellac : function(object, clean){ 
+	      //style getter for both standards based browsers and that other browser
+	      function getStyle(styleProp) {
+	      	if (object.currentStyle)
+	      		var style = object.currentStyle[styleProp];
+	      	else if (window.getComputedStyle)
+	      		var style = document.defaultView.getComputedStyle(object,null).getPropertyValue(styleProp);
+	      	return style;
+	      }
 
-var p = 0;
-majorLength = 10000
+			  //get styles
+			  styles = new Object()
+			  styles.font = getStyle("font-family");
+	  		  styles.weight = getStyle("font-weight");
+	  		  styles.size = parseInt(getStyle("font-size"));
+	  		  styles.style = getStyle("font-style");
+	  		  styles.color = getStyle("color");
+	  		  styles.leading = parseInt(getStyle("line-height"))
 
-function colorCubeAnim(letter,a,b) {
-  var top = 0
-	var left = 0
-  var defaults = {
-    colorArray : ["#008CD1","#CA5752","#FFED00","#E4066F"],
-    compArray : ['lighter','darker','lighter','darker']
-  }
+			  //create a canvas
+			  var canvas = document.createElement('canvas')
+			  canvas.setAttribute('class','shellac')
+			  canvas.width = object.offsetWidth
+			  canvas.height = object.offsetHeight
+			  context = canvas.getContext("2d");
+			  context.fillStyle= styles.color
+			  context.font = styles.weight + " " + styles.style + " " + styles.size + "px " + styles.font
+			  //split up the string into words
+			  var text = object.innerHTML;
+			  if(clean) {
+			  	object.innerHTML = "" }
+			  var wordArray = text.split(" "); 
+			  var phraseArray = new Array();
+			  var lastPhrase = ""
 
-	var rotation = 0
 
-	function drawTriangle(x,y,length,height) {
-    
-		context.beginPath() ;       	
-			context.moveTo(x + left, y + top); // give the (x,y) coordinates
-			context.lineTo(length + left, height + top);
-			context.lineTo(a[rotation] + left, b + top);
-			context.fillStyle = defaults.colorArray[rotation]
-			context.globalCompositeOperation = defaults.compArray[rotation]
-			context.lineTo(0 + left, 0 + top);
-      
-			context.fill();
-	    context.closePath();
-      
-      var size = $('h1').css('font-size')
-      var intSize=parseInt(size)  
-      var leading = parseInt($('h1').css('lineHeight')) 
-      var place = 0.39*intSize
-  		var paddingTop = (intSize)-place
-  		
-  		context.globalCompositeOperation = 'lighter'
-  		context.fillText(letter, 0, paddingTop);
 
-		rotation = rotation + 1
-		if (rotation == 3) {
-			rotation = 0
-		}
+			  //break ups
+			  for (var i=0;i<wordArray.length;i++) {
+				   var word = wordArray[i];
+				   var measure = context.measureText(lastPhrase + " " + word).width;
+				   if(i == 0) { lastPhrase = word }
+	         else if(measure < object.clientWidth) { lastPhrase+=(" " + word); }
+				   else {
+				     phraseArray.push(lastPhrase);
+				     lastPhrase = word;
+				   }
+			  }
+			  phraseArray.push(lastPhrase);
+
+			  //draw text
+			  for(var i=0;i<phraseArray.length;i++) {
+				  context.fillText(phraseArray[i], 0, (i * styles.leading) + styles.size);
+			  }
+
+			object.appendChild(canvas)
+			return canvas;
+	},
+
+
+
+   colorCube : function(canvas,predata) {
+	   var rotation = 0, a = 0, p = 0, node = {}, that = this
+	   var context = canvas.getContext("2d")
+	   var anim = setInterval(makeCubes,10)
+	   function getRandom(){ return Math.random()*canvas.offsetHeight }
+	   var randos = [getRandom(),getRandom(),getRandom(),getRandom()]
+	   function makeCubes() {
+		   context.clearRect(0,0,canvas.width,canvas.height)
+		   context.putImageData(predata,0,0)
+		   function drawTriangle(x,y,length,height,type) {
+		  	   context.beginPath() ;       	
+			   context.moveTo(x, y); // give the (x,y) coordinates
+			   context.lineTo(length, height);
+			   context.lineTo(randos[type], p);
+			   context.fillStyle = that.colorArray[type]
+			   context.globalCompositeOperation = that.compArray[type]
+			   context.lineTo(0, 0); 
+		  	   context.fill();
+		  	   context.closePath();
+		   }
+
+		   drawTriangle(0,0,p,0,0)
+		   drawTriangle(p,0,p,p,1) 
+		   drawTriangle(p,p,0,p,2) 
+		   drawTriangle(0,p,p,p,3) 
+		   if (p > canvas.height) { clearInterval(anim) } 
+		   else { p = p + 40 }
+
+	   }
+
+
+       var goodies = {}
+	   goodies.canvas = canvas
+	   goodies.anim = anim
+	   goodies.predata = predata
+	   return goodies
+
+	},
+
+
+	eventFire : function(element) {
+				this.colorCube(element.colorCube.canvas,element.colorCube.predata)
+				element.colorCube.canvas.addEventListener("mouseout",function(){
+					clearInterval(element.colorCube.anim)
+					element.colorCube.canvas.removeEventListener("mouseout")
+				 },false)
+
+	},
+	  
 	
+	getPreData : function(canvas) {
+		var context = canvas.getContext('2d')
+	    var imageData = context.getImageData(0,0,canvas.clientWidth - 1,canvas.clientHeight - 1)
+	    return imageData
+	},
 
 
+	Node : function(shell,parent) {
+		var that = this
+		this.cram = shell
+		this.canvas = parent.shellac(shell,true)
+		this.preData = parent.getPreData(this.canvas)
+	    this.colorCube = parent.colorCube(this.canvas,this.preData)
+		this.colorCube.canvas.addEventListener("mouseover",function(){
+			parent.eventFire(that)
+		},false)
+		return this	
+	},
+
+
+	init: function(target){
+		var that = this
+		if(target) { 
+			this.t = document.getElementById(target) }
+		this.t.className += " triangulated"
+		var nodes = this.cram(this.t,1,'canv')
+		var boot = function() {
+			for(i in nodes) {
+				if(nodes[i].innerHTML != " ") {
+	        		that.nodes[i] = new that.Node(nodes[i],that)
+				}
+			}
+            that.t.className += " active"
+ 		}
+		window.setTimeout(boot,100)
 	}
 
-	//for (var i=0;i<2;i++) {
-		
-		context.clearRect(0,0,500,500)
-		drawTriangle(0,0,p,0)
-		drawTriangle(p,0,p,p) 
-		drawTriangle(p,p,0,p) 
-		drawTriangle(0,p,p,p) 
-		
-	//} 
-	
-	p = p + 30
-	if(p > majorLength) { 
-	  clearInterval(myInterval)
-	}
-} //end colorcube  
 
-$('.canv1').live('mouseenter', function() {
-  var canvas = $(this).children('canvas')[0] 
-  $(canvas).css({'top' : 0, 'left' : 0, 'position' : 'absolute'})
-  context = canvas.getContext("2d");
-  var text = $(this).text()
-  p = 0 
-  b = 150
-  a = new Array
-  for(i=0;i<3;i++) {
-    a[i] = Math.floor(Math.random()*b) 
-  }
-  myInterval = setInterval(function() { colorCubeAnim(text,a,b); }, 20);
-  majorLength = 10000
-});
-
-$('.canv1').live('mouseleave', function() {
-  clearInterval(myInterval)
-});
+}
 
 
-
+tri.init('to_tri') 

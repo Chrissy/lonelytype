@@ -1,0 +1,49 @@
+
+#to_ill {
+	width: 1280px;
+	position: absolute;
+	left: 50%;
+	margin-left: -640px;
+	top: 100px;
+}  
+
+.illuminated .element1 {
+  font-size: 50px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  display: inline-block;
+  margin-bottom: -80px;
+  overflow: visible;
+  cursor: pointer;
+  top: -50px;
+}
+
+.illuminated .element1 svg {
+    position: absolute;
+}
+
+.illuminated .element1:hover {
+  cursor: pointer;
+}
+
+.illuminated .letter {
+  position: absolute;
+  top: 60%;
+  left: 18%;
+  color: #444;
+  transition: all .2s ease-in;
+  -o-transition: all .2s ease-in;
+  -moz-transition: all .2s ease-in;
+  -webkit-transition: all .2s linear;
+}
+
+.illuminated {
+  font-size: 10px;
+  opacity: 0;
+  line-height:5px !important;
+}
+
+.illuminated.active {
+  opacity: 1 !important;
+}

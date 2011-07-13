@@ -1,0 +1,21 @@
+#to_punch {
+	font-size: 360px;
+	color: black;
+	position: relative;
+	left: 50%;
+	margin-left: -600px;
+	width: 1200px;
+	text-indent: -9999px;
+	line-height: 0;
+	font-family: sans-serif;
+	font-style: normal;
+	font-size: 200px;
+	height: 500px;
+}
+
+#to_punch .shellac {
+	position: absolute;
+	display: block;
+	top: -40px;
+	left: 0;
+}
